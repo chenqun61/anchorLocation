@@ -148,36 +148,37 @@
             }
         }
 
-        window.onload(function () {
-            var top = document.documentElement ? document.documentElement.scrollTop : document.body.scrollTop;
+        window.onload = function () {
             var menus = document.getElementById('menu').getElementsByTagName('a');
             var items = document.getElementById('content').getElementsByClassName('item');
-
             var currentId = "";
 
-            for (var i = 0; i < items.length; i++) {
-                var _item = items[i];
-                var _itemTop = _item.offsetTop;
-                if (top > _itemTop - 200) {
-                    currentId = _item.id;
-                } else {
-                    break;//我们在each里面通过return false跳出循环，因为each里面是一个函数，在for循环我们使用break直接跳出循环
-                }
-            }
-
-            if (currentId) {
-                for (var j = 0; j < menus.length; j++) {
-                    var _menu = menus[j];
-                    var _href = _menu.href.split('#');
-
-                    if (_href[_href.length - 1] != currentId) {
-                        removeClass(_menu,"current");//注意原生js中没有removeClass这个方法
+            window.onscroll = function () {
+                for (var i = 0; i < items.length; i++) {
+                    var _item = items[i];
+                    var _itemTop = _item.offsetTop;
+                    var top = document.documentElement ? document.documentElement.scrollTop : document.body.scrollTop;
+                    if (top >= _itemTop - 200) {
+                        currentId = _item.id;
                     } else {
-                        addClass(_menu,"current");//注意原生js中没有addClass这个方法
+                        break;//我们在each里面通过return false跳出循环，因为each里面是一个函数，在for循环我们使用break直接跳出循环
                     }
                 }
-            };
-        });
+
+                if (currentId) {
+                    for (var j = 0; j < menus.length; j++) {
+                        var _menu = menus[j];
+                        var _href = _menu.href.split('#');
+
+                        if (_href[_href.length - 1] != currentId) {
+                            removeClass(_menu, "current");//注意原生js中没有removeClass这个方法
+                        } else {
+                            addClass(_menu, "current");//注意原生js中没有addClass这个方法
+                        }
+                    }
+                };
+            }
+        };
     </script>
 </head>
 
